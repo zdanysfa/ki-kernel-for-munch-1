@@ -10,6 +10,7 @@ on:
         type: choice
         options:
           - 'popular - Alioth (POCO F3) & LMI (POCO F2 Pro)'
+          - 'munch - POCO F4 / Redmi K40S'
           - 'alioth - POCO F3 / Redmi K40'
           - 'lmi - POCO F2 Pro / Redmi K30 Pro'
           - 'all - Semua Device Non-F4 Sekaligus (12 Device)'
@@ -186,7 +187,8 @@ jobs:
           if-no-files-found: error
 
       - name: Send Flashable Zip to Telegram
-        if: success()
+        # forks must not post test builds to the upstream release channel
+        if: success() && github.repository_owner == 'Luckyfr1945'
         env:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID || '-1004420069477' }}
@@ -214,6 +216,7 @@ jobs:
           TOPIC_ID = int(RAW_TOPIC) if RAW_TOPIC.isdigit() else 4
 
           DEV_NAMES = {
+              "munch": "POCO F4 / Redmi K40S",
               "alioth": "POCO F3 / Redmi K40",
               "apollo": "Mi 10T / Mi 10T Pro",
               "thyme": "Mi 10S",
