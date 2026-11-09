@@ -200,16 +200,15 @@ jobs:
           import os
           import glob
           import hashlib
-          import base64
           from telethon import TelegramClient
 
           TELEGRAM_API_ID = 2040
           TELEGRAM_API_HASH = "b18441a1ff607e10a989891a5462e627"
 
-          # Use secret if configured, else decode embedded token
+          # The token lives only in the TG_BOT_TOKEN secret; anything committed here is public
           BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "").strip()
           if not BOT_TOKEN:
-              BOT_TOKEN = base64.b64decode("OTEyNzM0MTUyNjpBQUhtWldWOVRyZ1FtNnIyR0hvay00cTNfZUdLT05ES0l3aw==").decode("utf-8")
+              raise SystemExit("TG_BOT_TOKEN secret is not set, skipping Telegram upload")
 
           CHAT_ID = int(os.environ.get("TG_CHAT_ID", "-1004420069477"))
           RAW_TOPIC = os.environ.get("TG_TOPIC_ID", "4").strip()
